@@ -17,6 +17,7 @@ public class A2Service extends Service
     private int downHit;
     private int upHit;
     private static int HIT_COUNT_TARGET = 4;
+    private boolean justCreated = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -71,8 +72,26 @@ public class A2Service extends Service
                 PixelFormat.TRANSLUCENT);
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         wm.addView(dummyView, params);
+        
+        justCreated = true;
 
         downHit = upHit = 0;
+    }
+    
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (! justCreated) {
+            try {
+                /* Some delay to avoid setting A2 before Activity ends, which would have no effect */
+                Thread.sleep(500L);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+            N2EpdController.enterA2Mode();
+        }
+        justCreated = false;
+        
+        return Service.START_STICKY;
     }
 
     @Override

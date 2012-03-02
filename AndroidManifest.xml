@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      android:versionCode="1"
-      android:versionName="1.0" package="com.eink.norefresh">
+          android:versionCode="1"
+          android:versionName="1.0" package="com.eink.norefresh">
     <application android:label="NoRefreshToggle">
         <activity android:name=".A2Activity"
                   android:label="NoRefreshToggle">
@@ -10,9 +10,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-	<service android:name=".A2Service" android:exported="true" />
+        <service android:name=".A2Service" android:exported="true" />
     </application>
- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
- <uses-permission android:name="android.permission.GET_TASKS" />
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 </manifest> 
