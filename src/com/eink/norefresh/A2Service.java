@@ -8,6 +8,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class A2Service extends Service
 {
@@ -18,6 +21,9 @@ public class A2Service extends Service
     private int upHit;
     private static int HIT_COUNT_TARGET = 4;
     private boolean justCreated = false;
+    private Process process;
+    private BufferedReader reader;
+    private boolean a2Active = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -27,6 +33,14 @@ public class A2Service extends Service
     @Override
     public void onCreate() {
         super.onCreate();
+
+        try {
+            process = Runtime.getRuntime().exec("/system/bin/logcat NATIVE-EPD:D EPD#NoRefreshToggle:D *:S");
+            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
         OnTouchListener touch = new OnTouchListener()
         {
             @Override
@@ -38,7 +52,7 @@ public class A2Service extends Service
                     downHit++;
                 else
                     downHit = 0;
-                
+
                 if (x < lastX && y < lastY)
                     upHit++;
                 else
@@ -48,11 +62,10 @@ public class A2Service extends Service
                 lastY = y;
 
                 if (downHit == HIT_COUNT_TARGET - 1) {
-                    N2EpdController.enterA2Mode();
+                    setEpdA2();
                     downHit = 0;
                 } else if (upHit == HIT_COUNT_TARGET - 1) {
-                    N2EpdController.exitA2Mode();
-                    N2EpdController.setGL16Mode(1);
+                    setEpdNormal();
                     upHit = 0;
                 }
                 return false;
@@ -72,26 +85,52 @@ public class A2Service extends Service
                 PixelFormat.TRANSLUCENT);
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         wm.addView(dummyView, params);
-        
+
         justCreated = true;
 
         downHit = upHit = 0;
     }
-    
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (! justCreated) {
+        if (!justCreated && !guessA2Active()) {
             try {
-                /* Some delay to avoid setting A2 before Activity ends, which would have no effect */
+                /*
+                 * Some delay to avoid setting A2 before Activity ends, which
+                 * would have no effect
+                 */
                 Thread.sleep(500L);
             } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
             }
-            N2EpdController.enterA2Mode();
+            setEpdA2();
         }
         justCreated = false;
-        
+
         return Service.START_STICKY;
+    }
+
+    private void setEpdNormal() {
+        N2EpdController.exitA2Mode();
+        N2EpdController.setGL16Mode(1);
+    }
+
+    private void setEpdA2() {
+        N2EpdController.enterA2Mode();
+    }
+
+    private boolean guessA2Active() {
+        try {
+            String line;
+            while (reader.ready() && (line = reader.readLine()) != null) {
+                if (line.contains("A2"))
+                    a2Active = true;
+                else if (line.contains("epd_reset_region"))
+                    a2Active = false;
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return a2Active;
     }
 
     @Override
