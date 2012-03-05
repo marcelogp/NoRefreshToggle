@@ -2,6 +2,7 @@ package com.eink.norefresh;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.CountDownTimer;
 import android.os.IBinder;
@@ -20,14 +21,14 @@ public class A2Service extends Service
     private float lastX;
     private int downHit;
     private int upHit;
-    private static int HIT_COUNT_TARGET = 4;
     private boolean ignoreNext = false;
     private Process process;
     private BufferedReader reader;
     private boolean a2Active = false;
-    private CountDownTimer timer;
-    private static boolean GESTURES_ENABLED = true;
     private Display display;
+    
+    private static int HIT_COUNT_TARGET = 4;
+    private static boolean GESTURES_ENABLED = false;
     
     @Override
     public IBinder onBind(Intent intent) {
@@ -54,6 +55,7 @@ public class A2Service extends Service
         dummyView = new View(this);
         
         blankButton = new Button(this);
+        blankButton.setBackgroundColor(Color.WHITE);
         blankButton.setVisibility(View.GONE);
         
         if (GESTURES_ENABLED) {
@@ -78,10 +80,10 @@ public class A2Service extends Service
                     lastY = y;
                     
                     if (downHit == HIT_COUNT_TARGET - 1) {
-                        setEpdA2();
+                        setEpdFlashDelay(250, true);
                         downHit = 0;
                     } else if (upHit == HIT_COUNT_TARGET - 1) {
-                        setEpdNormal();
+                        setEpdFlashDelay(250, false);
                         upHit = 0;
                     }
                     return false;
@@ -115,7 +117,7 @@ public class A2Service extends Service
                 Thread.sleep(500L);
             } catch (InterruptedException ex) {
             }
-            setEpdA2();
+            setEpdFlashDelay(250, true);
         }
         ignoreNext = false;
         
@@ -129,18 +131,22 @@ public class A2Service extends Service
     
     private void setEpdA2() {
         /*
+         * Set A2 mode after some delay to force an entire redraw in 1-bit
+         * (avoid initial ghosting)
+         */
+        N2EpdController.enterA2Mode();
+    }
+    
+    private void setEpdFlashDelay(int ms, final boolean setA2) {
+        /*
          * Screen should go temporarily blank
          */
         blankButton.setHeight(display.getHeight());
         blankButton.setWidth(display.getWidth());
         blankButton.setVisibility(View.VISIBLE);
         blankButton.postInvalidate();
-
-        /*
-         * Set A2 mode after some delay to force an entire redraw in 1-bit
-         * (avoid initial ghosting)
-         */
-        timer = new CountDownTimer(250, 250)
+        
+        CountDownTimer timer = new CountDownTimer(ms, ms)
         {
             @Override
             public void onTick(long arg0) {
@@ -148,7 +154,10 @@ public class A2Service extends Service
             
             @Override
             public void onFinish() {
-                N2EpdController.enterA2Mode();
+                if (setA2)
+                    setEpdA2();
+                else
+                    setEpdNormal();
                 blankButton.setVisibility(View.GONE);
             }
         }.start();
@@ -163,7 +172,7 @@ public class A2Service extends Service
             while (reader.ready() && (line = reader.readLine()) != null) {
                 if (line.contains("A2"))
                     a2Active = true;
-                else if (line.contains("epd_reset_region"))
+                else if (line.contains("epd_reset_region") || line.contains("GU"))
                     a2Active = false;
             }
         } catch (IOException ex) {
