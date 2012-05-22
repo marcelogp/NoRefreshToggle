@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory 
+        android:title="General settings"
+        android:key="cat_general">
+        
+        <CheckBoxPreference 
+            android:key="start_startup"
+            android:title="Start Service on Startup" 
+            android:defaultValue="false"
+        />
+        
+        <CheckBoxPreference
+            android:key="on_off"
+            android:title="Current Service State"
+            android:summaryOff="NoRefresh is not running, tap to start"
+            android:summaryOn="NoRefresh is running, tap to stop"
+        />
+        
+        <com.eink.norefresh.AppListPreference
+            android:key="whitelist"
+            android:title="App Whitelist"
+            android:summary="Define in which apps NoRefresh can be triggered"
+            android:entries="@array/empty"
+            android:entryValues="@array/empty"
+        />
+    </PreferenceCategory>
+
+    <PreferenceCategory 
+        android:title="Features settings"
+        android:key="cat_features">
+
+        <CheckBoxPreference 
+            android:key="contrast_enable"
+            android:title="Enable Contrast Setting" 
+            android:defaultValue="true"
+        />
+        
+        <CheckBoxPreference 
+            android:key="clear_screen"
+            android:title="Clear Screen Before Applying" 
+            android:summary="Used to avoid initial ghosting"
+            android:defaultValue="true"
+        />
+    </PreferenceCategory>
+    
+    <PreferenceCategory 
+        android:title="Gestures settings"
+        android:key="cat_gestures">
+        
+        <CheckBoxPreference 
+            android:key="act_gesture"
+            android:title="Enable Activation Gesture" 
+            android:summary="N downward right taps"
+            android:defaultValue="false"
+        />
+        
+        <CheckBoxPreference 
+            android:key="deact_gesture"
+            android:title="Enable Deactivation Gesture" 
+            android:summary="N upward left taps"
+            android:defaultValue="false"
+        />
+        
+        <ListPreference 
+            android:key="taps_number"
+            android:title="Number of Taps for Gesture"
+            android:defaultValue="3"
+            android:entries="@array/tapsNo"
+            android:entryValues="@array/tapsNoValues"
+        />
+    </PreferenceCategory>
+    
+    <PreferenceCategory 
+        android:title="Automatic settings"
+        android:key="cat_automatic">
+        <CheckBoxPreference 
+            android:key="auto_activate"
+            android:title="Auto Activate When Scrolling"
+            android:summary="Launches NoRefresh when screen animation is detected"
+            android:defaultValue="true"
+        />
+        
+        <ListPreference 
+            android:key="activate_delay"
+            android:title="Auto Activate Time Window"
+            android:defaultValue="400"
+            android:entries="@array/delays"
+            android:entryValues="@array/delaysValues"
+            android:summary="Higher value makes it easier to activate (def. 400ms)"
+            android:dependency="auto_activate"
+        />
+        
+        <CheckBoxPreference 
+            android:key="auto_deactivate"
+            android:title="Auto Deactivate When Not Scrolling"
+            android:summary="Stops NoRefresh when no screen animation is detected"
+            android:defaultValue="true"
+        />
+        
+        <ListPreference 
+            android:key="deactivate_delay"
+            android:title="Auto Deactivate Idle Duration"
+            android:defaultValue="1500"
+            android:entries="@array/delays"
+            android:entryValues="@array/delaysValues"
+            android:summary="Higher value makes it longer to deactivate (def. 1500ms)"
+            android:dependency="auto_deactivate"
+        />
+        
+        <CheckBoxPreference 
+            android:key="keep_manual"
+            android:title="Don't Auto Deactivate When Manual"
+            android:summary="Keep NoRefresh if enabled manually (via app shortcut)"
+            android:defaultValue="true"
+            android:dependency="auto_deactivate"
+        />
+    </PreferenceCategory>
+
+    
+</PreferenceScreen>

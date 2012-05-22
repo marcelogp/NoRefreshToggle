@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tapsNo">
+        <item name="2">2 consecutive taps</item>
+        <item name="3">3 consecutive taps</item>
+        <item name="4">4 consecutive taps</item>
+    </string-array>
+    
+    <string-array name="tapsNoValues">
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+    </string-array>
+    
+    <string-array name="delays">
+        <item name="200">200 ms</item>
+        <item name="300">300 ms</item>
+        <item name="400">400 ms</item>
+        <item name="600">600 ms</item>
+        <item name="800">800 ms</item>
+        <item name="1000">1000 ms</item>
+        <item name="1500">1500 ms</item>
+        <item name="2000">2000 ms</item>
+        <item name="3000">3000 ms</item>
+    </string-array>
+
+    <string-array name="delaysValues">
+        <item name="200">200</item>
+        <item name="300">300</item>
+        <item name="400">400</item>
+        <item name="600">600</item>
+        <item name="800">800</item>
+        <item name="1000">1000</item>
+        <item name="1500">1500</item>
+        <item name="2000">2000</item>
+        <item name="3000">3000</item>
+    </string-array>
+    
+    <string-array name="empty"/>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <declare-styleable name="ListPreferenceMultiSelect">
+        <attr format="string" name="checkAll" />
+        <attr format="string" name="separator" />
+    </declare-styleable>
+</resources>
