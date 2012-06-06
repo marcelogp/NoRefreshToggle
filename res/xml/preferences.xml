@@ -21,7 +21,7 @@
         <com.eink.norefresh.AppListPreference
             android:key="whitelist"
             android:title="App Whitelist"
-            android:summary="Define in which apps NoRefresh can be triggered"
+            android:summary="Define in which apps NoRefresh can be triggered (gestures and automatic)"
             android:entries="@array/empty"
             android:entryValues="@array/empty"
         />

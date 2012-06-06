@@ -53,7 +53,6 @@ public class A2Service extends Service
     private String appWhiteList;
     private int lastActivationMode;
     private static int SAMPLES_N = 9;
-    private static int SAMPLING_DELAY_MS = 0;
     private static int FASTEST_THR_MS = 400, FAST_THR_MS = 2000;
     private static int A2_GHOSTING_DELAY_MS = 600;
     private static int A2_IDLE_MS = 1500;
@@ -230,7 +229,7 @@ public class A2Service extends Service
     private void loadSettings() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        appWhiteList = sharedPrefs.getString("whitelist", null);
+        appWhiteList = sharedPrefs.getString("whitelist", "");
         autoOn = sharedPrefs.getBoolean("auto_activate", false);
         autoOff = sharedPrefs.getBoolean("auto_deactivate", false);
         contrastOn = sharedPrefs.getBoolean("contrast_enable", false);
@@ -389,8 +388,6 @@ public class A2Service extends Service
                     }
                     tl[upos] = tval;
                     upos = (upos + 1) % SAMPLES_N;
-
-                    Thread.sleep(SAMPLING_DELAY_MS);
                 }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
