@@ -1,0 +1,12 @@
+NoRefreshToggle (or simply NoRefresh) is a screen refresh controller app for
+the Nook Simple Touch E-Ink screen. Basically, it manages switching easily
+between "normal" and "A2" refresh modes to allow 1-bit fast animations for any
+android app without source code modification. Ideally, each app should be natively
+"ported" to manage e-ink screen updates accordingly, but this may be time-consuming,
+difficult or even impossible if the app is closed source, which means very often.
+
+Building should be straightforward enough, requiring Android SDK and NDK.
+
+App discussion and more information at: http://forum.xda-developers.com/showthread.php?p=22800284
+
+Licensed under GPL-V3 with code portions from AndroSS (https://github.com/tstein/AndroSS)

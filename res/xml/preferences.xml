@@ -21,7 +21,7 @@
         <com.eink.norefresh.AppListPreference
             android:key="whitelist"
             android:title="App Whitelist"
-            android:summary="Define in which apps NoRefresh can be triggered (gestures and automatic)"
+            android:summary="Define in which apps NoRefresh can be triggered (gestures and automatic modes)"
             android:entries="@array/empty"
             android:entryValues="@array/empty"
         />
@@ -31,10 +31,12 @@
         android:title="Features settings"
         android:key="cat_features">
 
-        <CheckBoxPreference 
-            android:key="contrast_enable"
-            android:title="Enable Contrast Setting" 
-            android:defaultValue="true"
+        <ListPreference 
+            android:key="contrast_setting"
+            android:title="Contrast Setting" 
+            android:defaultValue="auto"
+            android:entries="@array/contrastTypes"
+            android:entryValues="@array/contrastValues"
         />
         
         <CheckBoxPreference 

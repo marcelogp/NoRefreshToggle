@@ -17,6 +17,7 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         addPreferencesFromResource(R.xml.preferences);
 
         updateSummary((ListPreference) findPreference("taps_number"));
+        updateSummary((ListPreference) findPreference("contrast_setting"));
 
         ((CheckBoxPreference) findPreference("on_off")).setChecked(A2Service.serviceRunning);
     }
@@ -45,7 +46,7 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
             else
                 stopService(new Intent(this, A2Service.class));
         } else {
-            if (key.equals("taps_number"))
+            if (key.equals("taps_number") || key.equals("contrast_setting"))
                 updateSummary((ListPreference) p);
             changed = true;
         }

@@ -36,5 +36,21 @@
         <item name="3000">3000</item>
     </string-array>
     
+    <string-array name="contrastTypes">
+        <item name="1">Disabled</item>
+        <item name="2">Always define automatically</item>
+        <item name="3">Appear at manual activation only</item>
+        <item name="4">Appear at manual and gesture activations</item>
+        <item name="5">Appear always</item>
+    </string-array>
+    
+    <string-array name="contrastValues">
+        <item name="1">off</item>
+        <item name="2">auto</item>
+        <item name="3">manual</item>
+        <item name="3">gesture</item>
+        <item name="4">always</item>
+    </string-array>
+    
     <string-array name="empty"/>
 </resources>
