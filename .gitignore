@@ -3,3 +3,9 @@
 /build.xml
 /private/cache/retriever/guide.opendns.com/.url_schemas.android.com/
 /nbandroid/
+/obj/
+/libs/armeabi/
+/ant.properties
+/proguard-project.txt
+/proguard.cfg
+/private/

@@ -306,12 +306,12 @@ public class A2Service extends Service
         int delay = pref_clearScreen ? A2_GHOSTING_DELAY_MS : 0;
         
         if (!pref_contrast.equals("off")) {
-            if (pref_contrast.equals("auto") || 
-                (pref_contrast.equals("manual") && mode == ACTIVATION_GEST) ||
+            if (pref_contrast.equals("always") ||
+                (pref_contrast.equals("manual") && mode == ACTIVATION_MANUAL) ||
                 (pref_contrast.equals("gesture") && mode != ACTIVATION_AUTO))
-                setBestConstrast(); // automatic contrast
-            else
                 startOverlayTimeout(); // manual contrast
+            else
+                setBestConstrast(); // automatic contrast
             
             shadeOverlay.setVisibility(View.VISIBLE);
             shadeOverlay.postInvalidate();
